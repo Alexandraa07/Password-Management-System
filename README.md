@@ -1,11 +1,11 @@
 # Password-Management-System-C++-STL
-Manager de parole securizat, dezvoltat în C++ folosind conceptele de bază din POO și containerele STL.
+Secure password manager, developed in C++ using OOP concepts and STL containers
 
-## Funcționalități
-* **Căutare rapidă**: Găsește parolele salvate folosind un algoritm de căutare liniară.
-* **Persistență**: Salvează automat toate datele într-un fișier ".txt" la ieșire.
-* **Management dinamic**: Folosește "std::vector" pentru a gestiona numărul de intrări.
+## Features
+* **Quick Search**: Finds saved passwords using a linear search algorithm
+* **Persistence**: Automatically saves all data to a ".txt" file on exit
+* **Dynamic Management**: Uses "std::vector" to manage the number of entries
 
-## Detalii Tehnice
-* **Concepte**: Clase, Încapsulare, Lucru cu fișiere(fstream), Vectori.
-* **Limbaj**: C++
+## Technical Details
+* **Concepts**: Classes, Encapsulation, File Handling(fstream), Vectors
+* **Language**: C++
