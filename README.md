@@ -49,11 +49,13 @@ g++ main.cpp PasswordManager.cpp PasswordEntry.cpp -o passwordManager
 ## Example Usage
 
 Menu options:
+
 1 - Add credential  
 2 - Search credential  
 3 - Exit  
 
 Example:
+
 Site: github.com  
 Username: user123  
 Password: myPassword  
