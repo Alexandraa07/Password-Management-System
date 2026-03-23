@@ -6,59 +6,59 @@ int main()
     PasswordManager manager;
     std::string masterPass;
 
-    std::cout << "Introdu parola pentru acces: ";
+    std::cout << "Introdu master password: ";
     std::cin >> masterPass;
 
     if (!manager.login(masterPass))
     {
-        std::cout << "Acces respins! Parola gresita.\n";
+        std::cout << "Parola incorecta! La revedere." << std::endl;
         return 0;
     }
 
-    int optiune;
-    std::string s, u, p;
+    int option;
+    std::string site, user, pass;
 
     do
     {
-        std::cout << "\n1-ADAUGARE, 2-CAUTARE, 3-IESIRE\nAlege: ";
-        std::cin >> optiune;
+        std::cout << "\n1-ADAUGARE  2-CAUTARE  3-IESIRE" << std::endl;
+        std::cout << "Alege: ";
+        std::cin >> option;
 
-        switch (optiune)
+        switch (option)
         {
         case 1:
             std::cout << "Site: ";
-            std::cin >> s;
+            std::cin >> site;
             std::cout << "User: ";
-            std::cin >> u;
+            std::cin >> user;
             std::cout << "Pass: ";
-            std::cin >> p;
-            manager.addEntry(s, u, p);
+            std::cin >> pass;
+            manager.addEntry(site, user, pass);
             break;
 
         case 2:
             std::cout << "Ce site cauti?: ";
-            std::cin >> s;
-
+            std::cin >> site;
             {
-                PasswordEntry gasit = manager.getEntry(s);
-                if (gasit.Get_Website() != "Inexistent")
+                PasswordEntry e = manager.getEntry(site);
+                if (e.getWebsite() != "Inexistent")
                 {
-                    std::cout << "User: " << gasit.Get_Username() << "\n";
-                    std::cout << "Pass: " << gasit.Get_Password() << "\n";
+                    std::cout << "User: " << e.getUsername() << "\n";
+                    std::cout << "Pass: " << e.getPassword() << "\n";
                 }
                 else
                 {
-                    std::cout << "Site-ul nu a fost gasit.\n";
+                    std::cout << "Site-ul nu a fost gasit." << std::endl;
                 }
             }
             break;
 
         case 3:
             manager.saveToFile();
-            std::cout << "Date salvate. La revedere!\n";
+            std::cout << "Date salvate. La revedere!" << std::endl;
             break;
         }
-    } while (optiune != 3);
+    } while (option != 3);
 
     return 0;
 }

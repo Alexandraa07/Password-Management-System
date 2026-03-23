@@ -7,9 +7,7 @@ PasswordEntry::PasswordEntry()
     password = "";
 }
 
-PasswordEntry::~PasswordEntry() {}
-
-PasswordEntry::PasswordEntry(std::string website, std::string username, std::string password)
+PasswordEntry::PasswordEntry(const std::string &website, const std::string &username, const std::string &password)
 {
     this->website = website;
     this->username = username;

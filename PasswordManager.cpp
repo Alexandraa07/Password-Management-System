@@ -1,84 +1,99 @@
 #include "PasswordManager.h"
-#include "PasswordEntry.h"
+#include <fstream>
+#include <iostream>
+
+std::string PasswordManager::simpleHash(const std::string &input)
+{
+    unsigned long hash = 0;
+    for (char c : input)
+        hash = (hash * 31 + c) % 1000000;
+    return std::to_string(hash);
+}
+
+std::string PasswordManager::encrypt(const std::string &data)
+{
+    std::string result = data;
+    for (size_t i = 0; i < data.size(); ++i)
+        result[i] = data[i] ^ masterPasswordHash[i % masterPasswordHash.size()];
+    return result;
+}
+
+std::string PasswordManager::decrypt(const std::string &data)
+{
+    return encrypt(data);
+}
 
 PasswordManager::PasswordManager()
 {
     loadFromFile();
+    if (masterPasswordHash.empty())
+        masterPasswordHash = simpleHash("admin1007"); // parola default pentru test
 }
 
-void PasswordManager::addEntry(std::string site, std::string user, std::string pass)
+void PasswordManager::setMasterPassword(const std::string &newPass)
 {
-    std::string parolaCriptata = encrypt(pass);
-    PasswordEntry nou(site, user, parolaCriptata);
-    entries[site] = nou;
-    std::cout << "Datele pentru " << site << " au fost salvate criptat!\n";
+    masterPasswordHash = simpleHash(newPass);
 }
 
-std::string PasswordManager::encrypt(std::string data)
+bool PasswordManager::login(const std::string &inputPass)
 {
-    std::string result = data;
-    for (auto i = 0; i < data.size(); i++) {
-        result[i] = data[i] + 5;
-    }
-    return result;
+    return simpleHash(inputPass) == masterPasswordHash;
 }
 
-std::string PasswordManager::decrypt(std::string data)
+void PasswordManager::addEntry(const std::string &site, const std::string &user, const std::string &pass)
 {
-    std::string result = data;
-    for (auto i = 0; i < data.size(); i++) {
-        result[i] = data[i] - 5;
-    }
-    return result;
+    std::string encrypted = encrypt(pass);
+    entries[site] = PasswordEntry(site, user, encrypted);
+    std::cout << "Datele pentru " << site << " au fost salvate criptat!" << std::endl;
 }
 
-PasswordEntry PasswordManager::getEntry(const std::string& site)
+PasswordEntry PasswordManager::getEntry(const std::string &site)
 {
     auto it = entries.find(site);
     if (it != entries.end())
     {
-        PasswordEntry p = it->second;
-        std::string parolaCurata = decrypt(p.Get_Password());
-        p.Set_Password(parolaCurata);
-        return p;
+        PasswordEntry copy = it->second;
+        copy.setPassword(decrypt(copy.getPassword()));
+        return copy;
     }
-
-    return PasswordEntry("nu exista", "", "");
-}
-
-
-bool PasswordManager::login(std::string inputPass)
-{
-    if (inputPass == "admin1007")
-    {
-        return true;
-    }
-    return false;
+    return PasswordEntry("Inexistent", "", "");
 }
 
 void PasswordManager::saveToFile()
 {
-    std::ofstream f("date.txt");
+    std::ofstream f("passwords.txt");
     if (!f)
         return;
-    for (auto it = entries.begin(); it != entries.end(); it++)
+
+    f << masterPasswordHash << std::endl;
+
+    for (auto &pair : entries)
     {
-        f << it->second.Get_Website() << " " << it->second.Get_Username() << " " << it->second.Get_Password() << "\n";
+        f << pair.second.getWebsite() << " "
+          << pair.second.getUsername() << " "
+          << pair.second.getPassword() << "\n";
     }
+
     f.close();
 }
 
 void PasswordManager::loadFromFile()
 {
-    std::ifstream f("date.txt");
+    std::ifstream f("passwords.txt");
     if (!f)
         return;
 
-    std::string s, u, p;
-    while (f >> s >> u >> p)
+    entries.clear();
+
+    std::string line;
+    if (std::getline(f, line))
+        masterPasswordHash = line;
+
+    std::string site, user, pass;
+    while (f >> site >> user >> pass)
     {
-        PasswordEntry temp(s, u, p);
-        entries[s] = temp;
+        entries[site] = PasswordEntry(site, user, pass);
     }
+
     f.close();
 }
