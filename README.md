@@ -4,7 +4,7 @@
 This project is a console-based password manager developed in C++.  
 It allows users to securely store and retrieve login credentials for different websites.
 
-The application provides a simple interface for adding and searching stored credentials while ensuring basic protection through password encryption.
+The application provides a simple interface for adding and searching stored credentials while ensuring protection through password encryption.
 
 ## Features
 - Master password authentication before accessing the application
@@ -17,47 +17,32 @@ The application provides a simple interface for adding and searching stored cred
 ## Technologies Used
 - C++
 - Object-Oriented Programming (OOP)
-- STL 'map' for efficient credential storage and lookup
-- File I/O ('fstream') for saving and loading data
-- Basic encryption algorithm for password protection
+- STL "map" for efficient credential storage and lookup
+- File I/O ("fstream") for saving and loading data
+- Basic XOR-based encryption for password protection
 
 ## Project Structure
-PasswordManager – handles credential storage, encryption, and file operations  
-PasswordEntry – represents a single credential entry (website, username, password)  
-Main – provides the user interface and application flow
+PasswordManager – handles credential storage, encryption/decryption, and file operations
+PasswordEntry – represents a single credential entry (website, username, password)
+main.cpp – provides the console interface and program flow
 
 ## How It Works
-1. The user launches the program and enters a master password.
-2. After successful login, the user can choose from the following options:
-   - Add a new credential
-   - Search for stored credentials
-   - Exit the program
-3. Passwords are encrypted before being stored.
-4. When the user exits the program, all data is saved to a file.
+1. Launch the program and enter the master password.
+       For demo purposes, the default master password is "admin1007"
+3.  After successful login, choose from the menu:
+       Add a new credential
+       Search for stored credentials
+       Exit the program
+4. Passwords are encrypted before being saved to a file.
+5. On exit, all data is saved for future use.
 
 ## How to Run
 
 1. Compile the program using a C++ compiler.
 Example using g++:
-g++ main.cpp PasswordManager.cpp PasswordEntry.cpp -o passwordManager
+g++ main.cpp PasswordManager.cpp PasswordEntry.cpp -o main
 
 2. Run the program:
-./passwordManager
+./main
 
 3. Enter the master password to access the application.
-
-## Example Usage
-
-Menu options:
-
-1 - Add credential  
-2 - Search credential  
-3 - Exit  
-
-Example:
-
-Site: github.com  
-Username: user123  
-Password: myPassword  
-
-The password will be stored in encrypted form.
