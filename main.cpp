@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "PasswordManager.h"
 
 int main()
@@ -7,38 +8,40 @@ int main()
     std::string masterPass;
 
     std::cout << "Introdu master password: ";
-    std::cin >> masterPass;
+    std::getline(std::cin, masterPass);
 
     if (!manager.login(masterPass))
     {
-        std::cout << "Parola incorecta! La revedere." << std::endl;
+        std::cout << "Parola incorecta!\n";
         return 0;
     }
 
     int option;
-    std::string site, user, pass;
 
     do
     {
-        std::cout << "\n1-ADAUGARE  2-CAUTARE  3-IESIRE" << std::endl;
+        std::cout << "\n1-ADAUGARE\n2-CAUTARE\n3-STERGERE\n4-IESIRE\n";
         std::cout << "Alege: ";
         std::cin >> option;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        std::string site, user, pass;
 
         switch (option)
         {
         case 1:
             std::cout << "Site: ";
-            std::cin >> site;
+            std::getline(std::cin, site);
             std::cout << "User: ";
-            std::cin >> user;
+            std::getline(std::cin, user);
             std::cout << "Pass: ";
-            std::cin >> pass;
+            std::getline(std::cin, pass);
             manager.addEntry(site, user, pass);
             break;
 
         case 2:
-            std::cout << "Ce site cauti?: ";
-            std::cin >> site;
+            std::cout << "Site: ";
+            std::getline(std::cin, site);
             {
                 PasswordEntry e = manager.getEntry(site);
                 if (e.getWebsite() != "Inexistent")
@@ -48,17 +51,24 @@ int main()
                 }
                 else
                 {
-                    std::cout << "Site-ul nu a fost gasit." << std::endl;
+                    std::cout << "Nu a fost gasit.\n";
                 }
             }
             break;
 
         case 3:
+            std::cout << "Site: ";
+            std::getline(std::cin, site);
+            manager.deleteEntry(site);
+            break;
+
+        case 4:
             manager.saveToFile();
-            std::cout << "Date salvate. La revedere!" << std::endl;
+            std::cout << "Date salvate!\n";
             break;
         }
-    } while (option != 3);
+
+    } while (option != 4);
 
     return 0;
 }

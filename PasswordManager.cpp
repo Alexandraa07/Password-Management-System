@@ -12,22 +12,26 @@ std::string PasswordManager::simpleHash(const std::string &input)
 
 std::string PasswordManager::encrypt(const std::string &data)
 {
+    if (masterPasswordHash.empty())
+        return data;
+
     std::string result = data;
     for (size_t i = 0; i < data.size(); ++i)
         result[i] = data[i] ^ masterPasswordHash[i % masterPasswordHash.size()];
+
     return result;
 }
 
 std::string PasswordManager::decrypt(const std::string &data)
 {
-    return encrypt(data);
+    return encrypt(data); // XOR reversibil
 }
 
 PasswordManager::PasswordManager()
 {
     loadFromFile();
     if (masterPasswordHash.empty())
-        masterPasswordHash = simpleHash("admin1007"); // parola default pentru test
+        masterPasswordHash = simpleHash("admin1007");
 }
 
 void PasswordManager::setMasterPassword(const std::string &newPass)
@@ -42,9 +46,15 @@ bool PasswordManager::login(const std::string &inputPass)
 
 void PasswordManager::addEntry(const std::string &site, const std::string &user, const std::string &pass)
 {
+    if (entries.find(site) != entries.end())
+    {
+        std::cout << "Entry deja exista. Se suprascrie.\n";
+    }
+
     std::string encrypted = encrypt(pass);
     entries[site] = PasswordEntry(site, user, encrypted);
-    std::cout << "Datele pentru " << site << " au fost salvate criptat!" << std::endl;
+
+    std::cout << "Salvat cu succes!\n";
 }
 
 PasswordEntry PasswordManager::getEntry(const std::string &site)
@@ -59,13 +69,21 @@ PasswordEntry PasswordManager::getEntry(const std::string &site)
     return PasswordEntry("Inexistent", "", "");
 }
 
+void PasswordManager::deleteEntry(const std::string &site)
+{
+    if (entries.erase(site))
+        std::cout << "Sters cu succes!\n";
+    else
+        std::cout << "Nu exista acest site.\n";
+}
+
 void PasswordManager::saveToFile()
 {
     std::ofstream f("passwords.txt");
     if (!f)
         return;
 
-    f << masterPasswordHash << std::endl;
+    f << masterPasswordHash << "\n";
 
     for (auto &pair : entries)
     {
@@ -73,8 +91,6 @@ void PasswordManager::saveToFile()
           << pair.second.getUsername() << " "
           << pair.second.getPassword() << "\n";
     }
-
-    f.close();
 }
 
 void PasswordManager::loadFromFile()
@@ -85,15 +101,11 @@ void PasswordManager::loadFromFile()
 
     entries.clear();
 
-    std::string line;
-    if (std::getline(f, line))
-        masterPasswordHash = line;
+    std::getline(f, masterPasswordHash);
 
     std::string site, user, pass;
     while (f >> site >> user >> pass)
     {
         entries[site] = PasswordEntry(site, user, pass);
     }
-
-    f.close();
 }
