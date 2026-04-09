@@ -1,40 +1,43 @@
 # Password Manager (C++)
 
 ## Description
-This application is a simple password manager made in C++.  
-It can be used by a user for secure storage and search of credentials (username and password) for websites.
+
+This application is a simple password manager, written in C++.
+It can be used by a user to securely store and retrieve credentials (username and password) for websites.
 
 ## Features
-- Authentication to gain access to the application
-- Add new credentials (website, username, password)
-- Search credentials by name of a website
-- Simple passwords encryption/decryption
+
+- Authentication to access the application
+- Adding new credentials (website, username, password)
+- Searching for credentials by website name
+- Simple password encryption/decryption
 - Saving credentials to files
-- Simple console application
 
-## Technologies Used
+## Technologies used
+
 - C++
-- Object Oriented Programming (OOP)
+- Object-oriented programming (OOP)
 - STL "map"
-- File I/O functions (fstream)
-- Simple password encryption (XOR)
+- I/O functions
 
-## Project Architecture
-PasswordManager – credentials management and file operations
-PasswordEntry – representation of a set of credentials (website name, username and password)
+## Project architecture
+
+PasswordManager – managing credentials and file operations
+PasswordEntry – representing a set of credentials (website name, username and password)
 main.cpp – console interface
 
-## How It Works
-1. Launch the program and enter the master password.
-3.  After successful login, choose from the menu:
-       Add a new credential
-       Search for stored credentials
-       Delete certain credentials
-       Exit the program
-5. Passwords are encrypted before being saved to a file.
-6. On exit, all data is saved for future use.
+## How it works
 
-## How to Run
+1. Launch the program and enter the password (for easier use of the application, a password of "admin1007" was considered)
+2. After logging in, choose from the menu:
+    Add a new credential
+    Search stored credentials
+    Delete certain credentials
+    Exit the program
+3. Passwords are encrypted before being saved to a file.
+4. Upon exit, all data is saved for later use.
+
+## How to run
 
 1. Compile the program using a C++ compiler.
 Example using g++:
