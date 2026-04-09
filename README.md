@@ -1,40 +1,38 @@
 # Password Manager (C++)
 
 ## Description
-This project is a console-based password manager developed in C++.  
-It allows users to securely store and retrieve login credentials for different websites.
-
-The application provides a simple interface for adding and searching stored credentials while ensuring protection through password encryption.
+This application is a simple password manager made in C++.  
+It can be used by a user for secure storage and search of credentials (username and password) for websites.
 
 ## Features
-- Master password authentication before accessing the application
+- Authentication to gain access to the application
 - Add new credentials (website, username, password)
-- Search for saved credentials by website
-- Basic password encryption and decryption
-- Persistent storage using file handling
-- Simple console-based interface
+- Search credentials by name of a website
+- Simple passwords encryption/decryption
+- Saving credentials to files
+- Simple console application
 
 ## Technologies Used
 - C++
-- Object-Oriented Programming (OOP)
-- STL "map" for efficient credential storage and lookup
-- File I/O ("fstream") for saving and loading data
-- Basic XOR-based encryption for password protection
+- Object Oriented Programming (OOP)
+- STL "map"
+- File I/O functions (fstream)
+- Simple password encryption (XOR)
 
-## Project Structure
-PasswordManager – handles credential storage, encryption/decryption, and file operations
-PasswordEntry – represents a single credential entry (website, username, password)
-main.cpp – provides the console interface and program flow
+## Project Architecture
+PasswordManager – credentials management and file operations
+PasswordEntry – representation of a set of credentials (website name, username and password)
+main.cpp – console interface
 
 ## How It Works
 1. Launch the program and enter the master password.
-       For demo purposes, the default master password is "admin1007"
 3.  After successful login, choose from the menu:
        Add a new credential
        Search for stored credentials
+       Delete certain credentials
        Exit the program
-4. Passwords are encrypted before being saved to a file.
-5. On exit, all data is saved for future use.
+5. Passwords are encrypted before being saved to a file.
+6. On exit, all data is saved for future use.
 
 ## How to Run
 
